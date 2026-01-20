@@ -39,9 +39,26 @@ git clone https://github.com/juamecos/mcp-symfony-poc.git
 cd mcp-symfony-poc
 ```
 
-### 2. Project Setup
+### 2. Install Dependencies
 
-The project includes the necessary dependencies:
+**⚠️ IMPORTANT:** Install Composer dependencies on your local machine BEFORE building Docker container:
+
+```bash
+composer install --ignore-platform-reqs
+```
+
+**Why?** The `docker-compose.yml` uses a volume mount (`.:/app`) that shares files between your host machine and the container. When you install dependencies locally, they're immediately available inside the container.
+
+**If you don't have Composer installed locally:**
+
+Option A - Install Composer: https://getcomposer.org/download/
+
+Option B - Use Docker to install:
+```bash
+docker run --rm -v $(pwd):/app composer install --ignore-platform-reqs
+```
+
+### 3. Build and Start Container
 
 ```json
 {
@@ -51,20 +68,26 @@ The project includes the necessary dependencies:
     "symfony/mcp-bundle": "dev-main",
     "nyholm/psr7": "^1.8"
   }
-}
-```
-
-### 3. Install Dependencies and Build Container
+### 3. Build and Start Container
 
 ```bash
 # Build and start the Docker container
-docker-compose up -d
+docker-compose up --build
 
-# If running locally without Docker:
-composer install --ignore-platform-reqs
+# Or run in detached mode
+docker-compose up -d --build
 ```
 
-### 4. MCP Bundle Configuration
+The server will be available at `http://localhost:8000/_mcp`
+
+**Verify it's running:**
+```bash
+docker ps | grep mcp-symfony-calculator
+```
+
+### 4. Project Structure
+
+The project includes the necessary dependencies:
 
 File: `config/packages/mcp.yaml`
 

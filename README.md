@@ -14,15 +14,23 @@ Simple MCP server with Symfony that exposes an endpoint to add two numbers.
 ### Option 1: With Docker (Recommended)
 
 ```bash
-# 1. Navigate to project directory
-cd C:\projects\mcp-symfony-poc
+# 1. Clone the repository
+git clone https://github.com/juamecos/mcp-symfony-poc.git
+cd mcp-symfony-poc
 
-# 2. Build and start container
+# 2. Install dependencies (IMPORTANT: do this first!)
+composer install --ignore-platform-reqs
+
+# 3. Build and start container
 docker-compose up --build
 
-# 3. Server will be available at:
+# 4. Server will be available at:
 # http://localhost:8000/_mcp
 ```
+
+**⚠️ Important:** Run `composer install --ignore-platform-reqs` BEFORE `docker-compose up`. The volume mount shares the vendor directory between host and container.
+
+**Troubleshooting:** If you get errors, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 
 ### Option 2: Local (without Docker)
 

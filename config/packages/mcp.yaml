@@ -1,0 +1,11 @@
+mcp:
+  app: "Calculator MCP Server"
+  version: "1.0.0"
+  instructions: "A simple calculator that can add two numbers together"
+  client_transports:
+    stdio: true
+    http: true
+  http:
+    path: "/_mcp"
+    session:
+      store: memory

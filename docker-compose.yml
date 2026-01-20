@@ -1,0 +1,13 @@
+services:
+  symfony-mcp:
+    build: .
+    container_name: mcp-symfony-calculator
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - DEFAULT_URI=http://localhost
+    command: php -S 0.0.0.0:8000 -t public

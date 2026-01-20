@@ -32,9 +32,16 @@ mcp-symfony-poc/
 
 ## Implementation Process
 
-### 1. Project Setup
+### 1. Clone the Repository
 
-Create a Symfony project with the necessary dependencies:
+```bash
+git clone https://github.com/juamecos/mcp-symfony-poc.git
+cd mcp-symfony-poc
+```
+
+### 2. Project Setup
+
+The project includes the necessary dependencies:
 
 ```json
 {
@@ -47,7 +54,17 @@ Create a Symfony project with the necessary dependencies:
 }
 ```
 
-### 2. MCP Bundle Configuration
+### 3. Install Dependencies and Build Container
+
+```bash
+# Build and start the Docker container
+docker-compose up -d
+
+# If running locally without Docker:
+composer install --ignore-platform-reqs
+```
+
+### 4. MCP Bundle Configuration
 
 File: `config/packages/mcp.yaml`
 
@@ -65,7 +82,7 @@ mcp:
       store: memory
 ```
 
-### 3. Routes Configuration
+### 5. Routes Configuration
 
 File: `config/routes/mcp.yaml`
 
@@ -75,7 +92,7 @@ mcp:
   type: mcp
 ```
 
-### 4. Tool Implementation
+### 6. Tool Implementation
 
 Tools are implemented as PHP classes with the `#[McpTool]` attribute:
 
@@ -106,7 +123,7 @@ class AddNumbers
 }
 ```
 
-### 5. Containerization with Docker
+### 7. Containerization with Docker
 
 **Dockerfile:**
 
@@ -190,7 +207,14 @@ docker exec mcp-symfony-calculator php bin/console debug:container --tag=mcp.too
 
 ## Integration with Claude Desktop
 
-Configure in `%APPDATA%\Claude\claude_desktop_config.json`:
+### Configuration
+
+1. **Create or edit the configuration file:**
+   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Linux: `~/.config/Claude/claude_desktop_config.json`
+
+2. **Add the following configuration:**
 
 ```json
 {
@@ -203,7 +227,22 @@ Configure in `%APPDATA%\Claude\claude_desktop_config.json`:
 }
 ```
 
-Restart Claude Desktop to apply the configuration.
+3. **Restart Claude Desktop:**
+   - Close Claude completely (Ctrl+Q on Windows, Cmd+Q on macOS)
+   - Reopen Claude Desktop
+   - The server should be available
+
+4. **Test the integration:**
+   - Ask Claude: "Can you add 15 and 27 using your tools?"
+   - Claude should use the `add_numbers` tool from the symfony-calculator server
+
+### Troubleshooting
+
+- If the server doesn't appear, check that:
+  - The Docker container is running: `docker ps | grep mcp-symfony-calculator`
+  - The JSON configuration file is valid
+  - Claude Desktop is version 0.7.0 or higher
+- View Claude Desktop logs: Menu → Settings → Developer → View Logs
 
 ## Production Considerations
 
